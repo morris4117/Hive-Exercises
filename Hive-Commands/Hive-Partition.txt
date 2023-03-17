@@ -1,0 +1,200 @@
+[training@localhost ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_training_202302151213_635378100.txt
+hive> show tables;
+OK
+movies_part
+userrating
+Time taken: 2.589 seconds
+hive> load data local inpath 'hiveworkspace/action.txt' into table movies_part partition(genre='action');
+Copying data from file:/home/training/hiveworkspace/action.txt
+Copying file: file:/home/training/hiveworkspace/action.txt
+Loading data to table default.movies_part partition (genre=action)
+OK
+Time taken: 1.697 seconds
+hive> load data local inpath 'hiveworkspace/action.txt' into table movies_part p;                        
+FAILED: ParseException line 1:50 mismatched input '<EOF>' expecting TABLE near 'into' in load statement
+
+hive> load data local inpath 'hiveworkspace/comedy.txt' into table movies_part partition(genre='comedy');
+Copying data from file:/home/training/hiveworkspace/comedy.txt
+Copying file: file:/home/training/hiveworkspace/comedy.txt
+Loading data to table default.movies_part partition (genre=comedy)
+OK
+Time taken: 0.293 seconds
+hive> load data local inpath 'hiveworkspace/thriller.txt' into table movies_part partition(genre='thriller');
+Copying data from file:/home/training/hiveworkspace/thriller.txt
+Copying file: file:/home/training/hiveworkspace/thriller.txt
+Loading data to table default.movies_part partition (genre=thriller)
+OK
+Time taken: 0.255 seconds
+hive> select * from movies_part where genre='action' limit 10;
+OK
+2	GoldenEye (1995)	01-Jan-1995	http://us.imdb.com/M/title-exact?GoldenEye%20(1995)	action
+4	Get Shorty (1995)	01-Jan-1995	http://us.imdb.com/M/title-exact?Get%20Shorty%20(1995)	action
+17	From Dusk Till Dawn (1996)	05-Feb-1996	http://us.imdb.com/M/title-exact?From%20Dusk%20Till%20Dawn%20(1996)	action
+21	Muppet Treasure Island (1996)	16-Feb-1996	http://us.imdb.com/M/title-exact?Muppet%20Treasure%20Island%20(1996)action
+22	Braveheart (1995)	16-Feb-1996	http://us.imdb.com/M/title-exact?Braveheart%20(1995)	action
+24	Rumble in the Bronx (1995)	23-Feb-1996	http://us.imdb.com/M/title-exact?Hong%20Faan%20Kui%20(1995)	action
+27	Bad Boys (1995)	01-Jan-1995	http://us.imdb.com/M/title-exact?Bad%20Boys%20(1995)	action
+28	Apollo 13 (1995)	01-Jan-1995	http://us.imdb.com/M/title-exact?Apollo%2013%20(1995)	action
+29	Batman Forever (1995)	01-Jan-1995	http://us.imdb.com/M/title-exact?Batman%20Forever%20(1995)	action
+33	Desperado (1995)	01-Jan-1995	http://us.imdb.com/M/title-exact?Desperado%20(1995)	action
+Time taken: 0.324 seconds
+hive> create database practicedb; 
+OK
+Time taken: 0.03 seconds
+hive> use practicedb;
+OK
+Time taken: 0.015 seconds
+hive> create table user1(userid int,age int,gender string,occupation string,zipcode string) 
+    > row format delimited terminades;
+FAILED: ParseException line 2:21 mismatched input 'terminades' expecting EOF near 'delimited'
+
+hive> create table user1(userid int,age int,gender string,occupation string,zipcode bigint)
+    > row format delimited fields terminated by '|'
+    > stored as textfile;
+OK
+Time taken: 0.464 seconds
+hive> load data local inpath 'hiveworkspace/ml-data/u.user' into table user1;
+Copying data from file:/home/training/hiveworkspace/ml-data/u.user
+Copying file: file:/home/training/hiveworkspace/ml-data/u.user
+Loading data to table practicedb.user1
+OK
+Time taken: 0.362 seconds
+hive> create table userrating1(userid int,item int,rating string,timestamp bigint)                
+    > create table user1(userid int,age int,gender string,occupation string,zipc                                                                                load data local inpath 'hiveworkspace/ml-data/u.user' into table user1;
+FAILED: ParseException line 1:59 mismatched input 'timestamp' expecting Identifier near ',' in column specification
+
+hive> create table userrating1(userid int,item int,rating string,timestamp bigint)
+    > row format delimited fields terminated by '\t'                              
+    > stored as textfile;                                                         
+FAILED: ParseException line 1:59 mismatched input 'timestamp' expecting Identifier near ',' in column specification
+
+hive> create table userrating1(userid int,item int,rating int,timestamp bigint)   
+    > row format delimited fields terminated by '\t'                           
+    > stored as textfile;                                                      
+FAILED: ParseException line 1:56 mismatched input 'timestamp' expecting Identifier near ',' in column specification
+
+hive> create table userrating1(userid int, itemid int, rating int, timestamp bigint)
+    > row format delimited fields terminated by '\t'
+    > stored as textfile;
+FAILED: ParseException line 1:61 mismatched input 'timestamp' expecting Identifier near ',' in column specification
+
+hive> create table userrating1(userid int, itemid int, rating int, timestamp int)   
+    > row format delimited fields terminated by '\t'                             
+    > stored as textfile;                                                        
+FAILED: ParseException line 1:61 mismatched input 'timestamp' expecting Identifier near ',' in column specification
+
+hive> create table userrating1(userid int, itemid int, rating int, timestamp bigint)
+    > row format delimited fields terminated by '\t'                                       
+    > stored as textfile;                                                           
+FAILED: ParseException line 1:61 mismatched input 'timestamp' expecting Identifier near ',' in column specification
+
+hive> create table userrating1(userid int, itemid int, rating int, time bigint)     
+    > row format delimited fields terminated by '\t'                           
+    > stored as textfile;                                                      
+OK
+Time taken: 0.269 seconds
+hive> load data local inpath 'hiveworkspace/ml-data/u.data' into table userrating1  
+    > load data local inpath 'hiveworkspace/ml-data/u.data' into table userrating1;
+FAILED: ParseException line 2:0 mismatched input 'load' expecting EOF near 'userrating1'
+
+hive> load data local inpath 'hiveworkspace/ml-data/u.data' into table userrating1;
+Copying data from file:/home/training/hiveworkspace/ml-data/u.data
+Copying file: file:/home/training/hiveworkspace/ml-data/u.data
+Loading data to table practicedb.userrating1
+OK
+Time taken: 1.169 seconds
+hive> create table sample as select * from user1 join userrating on user1.userid = userrating1.userid;
+FAILED: SemanticException [Error 10001]: Line 1:48 Table not found 'userrating'
+hive> create table sample as select * from user1 join userrating1 on user1.userid = userrating1.userid;
+FAILED: SemanticException [Error 10036]: Duplicate column name: userid
+hive> create table sample as select user1.userid,userrating1. from user1 join userrating on user1.userid = userrating1.useridload data local inpath 'hiveworkspace/ml-data/u.data' into table userrating1;                                           
+Copying data from file:/home/training/hiveworkspace/ml-data/u.data
+Copying file: file:/home/training/hiveworkspace/ml-data/u.data
+Loading data to table practicedb.userrating1
+OK
+Time taken: 1.29 seconds
+hive> create table sample as select user1.userid,userrating1.rating,userrating.itemid from user1 join userrating1 on user1.userid=userrating1.userid;
+FAILED: SemanticException [Error 10004]: Line 1:62 Invalid table alias or column reference 'userrating': (possible column names are: _col0, _col1, _col2, _col3, _col4, _col7, _col8, _col9, _col10)
+hive> create table sample as select user1.userid,userrating1.rating,userrating.itemid from user1 join userrating1 on user1.us                                                                                                                             ;                                                                                                
+hive> create table sample as select user1.userid,userrating1.rating,userrating.itemid from user1 join userrating1 on user1.us on user1.userid=userrating1.userid;                                                                                         create table sample as select * from user1 join userrating on user1.userid = userrating1.userid; 
+FAILED: SemanticException [Error 10001]: Line 1:48 Table not found 'userrating'
+hive> create table sample as select user1.userid,userrating1.rating,userrating1.itemid from user1 join userrating1 on user1.userid=userrating1.userid; 
+Total MapReduce jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapred.reduce.tasks=<number>
+Starting Job = job_202302151212_0001, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_202302151212_0001
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_202302151212_0001
+Hadoop job information for Stage-1: number of mappers: 2; number of reducers: 1
+2023-02-15 13:15:05,225 Stage-1 map = 0%,  reduce = 0%
+2023-02-15 13:15:09,845 Stage-1 map = 50%,  reduce = 0%, Cumulative CPU 2.57 sec
+2023-02-15 13:15:10,857 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 7.23 sec
+2023-02-15 13:15:11,866 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 7.23 sec
+2023-02-15 13:15:12,875 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 7.23 sec
+2023-02-15 13:15:13,885 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 7.23 sec
+2023-02-15 13:15:14,901 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 11.45 sec
+2023-02-15 13:15:15,912 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 11.45 sec
+2023-02-15 13:15:16,924 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 11.45 sec
+MapReduce Total cumulative CPU time: 11 seconds 450 msec
+Ended Job = job_202302151212_0001
+Moving data to: hdfs://0.0.0.0:8020/user/hive/warehouse/practicedb.db/sample
+200000 Rows loaded to hdfs://0.0.0.0:8020/tmp/hive-training/hive_2023-02-15_13-14-57_557_2330190446038215076/-ext-10000
+MapReduce Jobs Launched: 
+Job 0: Map: 2  Reduce: 1   Cumulative CPU: 11.45 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 11 seconds 450 msec
+OK
+Time taken: 19.858 seconds
+hive> select * from sample limit 5;
+OK
+1	5	13
+1	3	62
+1	4	66
+1	4	161
+1	5	113
+Time taken: 0.206 seconds
+hive> show tables
+    > ;          
+OK
+sample
+user1
+userrating1
+Time taken: 0.052 seconds
+hive> select count(*) from userrating 
+    > ;
+FAILED: SemanticException [Error 10001]: Line 1:21 Table not found 'userrating'
+hive> select count(*) from userrating1;
+Total MapReduce jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapred.reduce.tasks=<number>
+Starting Job = job_202302151212_0002, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_202302151212_0002
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_202302151212_0002
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-02-15 13:20:51,679 Stage-1 map = 0%,  reduce = 0%
+2023-02-15 13:20:54,696 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.24 sec
+2023-02-15 13:20:55,703 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.24 sec
+2023-02-15 13:20:56,711 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.24 sec
+2023-02-15 13:20:57,719 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 3.21 sec
+2023-02-15 13:20:58,727 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 3.21 sec
+2023-02-15 13:20:59,736 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 3.21 sec
+MapReduce Total cumulative CPU time: 3 seconds 210 msec
+Ended Job = job_202302151212_0002
+MapReduce Jobs Launched: 
+Job 0: Map: 1  Reduce: 1   Cumulative CPU: 3.21 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 3 seconds 210 msec
+OK
+200000
+Time taken: 11.808 seconds
+hive> 
